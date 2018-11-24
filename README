@@ -1,0 +1,34 @@
+Also see this reddit post: https://www.reddit.com/r/arduino/comments/9zsmlv/super_easy_cloud_data_logging_with_google_sheets/
+
+Super easy cloud data logging with google sheets
+TL;DR: Publish google script as web app that responds to GET requests from your arduino by adding parameterized key/value pairs to google spreadsheet.
+
+I've found a super simple way to log data from an arduino to the cloud. Basically you set up a google spreadsheet to respond to GET requests from your arduino which include the data to be logged as parameters.
+
+To make a google sheet respond to GET requests, you have to publish it as a Web App. Full info here: https://developers.google.com/apps-script/guides/web but basically you hit tools -> script editor, and then write a script similar to this:
+
+<g-script>
+
+Then you publish the script as a Web App (publish -> deploy as Web App), and take note of the Web App URL google gives you when you do that. Be sure to tell the script to run as yourself, and allow anyone (even anonymous) to run it.
+
+NOTE: the function addRow() requires permission to run because it will be editing data in your spreadsheet. you can authorize it to run by selecting it from the function drop down, and hitting the play button. Google will prompt you to allow the script to run. This only needs to be done once.
+
+Then you just need to have your arduino make a GET request to your Web App URL w/ your data appended to the request as parameters. Like this:
+
+<arduino sketch>
+
+So, if your Web App URL is:
+
+https://script.google.com/macros/s/xyz123/exec
+
+Then your URL w/ parameters added would be:
+
+https://script.google.com/macros/s/xyz123/exec?key1=value1&key2=value2
+
+And thats it! When your arduino makes the GET request to the Web App URL, the google script will run and add the data to the spreadsheet.
+
+I've been using this method to log data from a Yun with attached temperature/humidity sensor and it is very reliable. No reason it wouldn't work with ESP8266 or any other web connected microcontroller that can make a GET request.
+
+Let me know if there are any questions and I'll do my best to answer! Thanks for reading!
+
+TL;DR: Publish google script as Web App that responds to GET requests from your arduino by adding parameterized key/value pairs to google spreadsheet.
