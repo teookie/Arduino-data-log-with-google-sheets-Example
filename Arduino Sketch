@@ -1,0 +1,12 @@
+#include <HttpClient.h>
+const String logURL = "**YOUR WEB APP URL GOES HERE**";
+HttpClient client;
+    client.noCheckSSL();  //required because the web app URL is https://...
+    String URL;
+    URL += logURL;
+    URL += "?Key1=";   //"Key1" must match a column name in your spreadsheet
+    URL += value1;     //"value1" can be whatever data from your sketch you want to log
+    URL += "&Key2=";   //"Key2" must match a column name in your spreadsheet
+    URL += value2;     //"value2" can be whatever data from your sketch you want to log
+                       //you can add as many key/value pairs as you need to...
+    client.get(URL);
